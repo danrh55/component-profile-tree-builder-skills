@@ -1,6 +1,6 @@
 # Initial Architecture Workflow
 
-This repository provides a portable workflow for framing an initial architecture in a new project or early build. The [component-tree skill](skills/component-tree/SKILL.md) owns the authoritative sequence, layer and folder conventions, specialist handoff, and user review. Read it before starting; it links to the focused problem-framing and component-profile skills it uses.
+This repository provides an agent for framing an initial architecture in a new project or early build. The component-tree agent owns the conversation; its linked skill supplies the authoritative workflow, conventions, specialist handoff, and review steps.
 
 ## Install
 
@@ -12,8 +12,6 @@ git clone https://github.com/danrh55/project-framing-agent.git .project-framing-
 
 ## Start
 
-In a coding-agent session opened at the target project root, ask:
+In a coding-agent session opened at the target project root, select or delegate to the installed component-tree agent and ask it to establish an initial architecture frame. If your harness uses agent files as prompt context, provide `agents/component-tree.md` to the agent. The agent will follow its skill and use the focused problem-framing and component-profile skills as needed.
 
-> Follow `.project-framing-agent/skills/component-tree/SKILL.md` to establish an initial architecture frame for this project. Inspect the repository and work with me through the workflow. Do not start implementation until I choose the next step.
-
-The workflow does not depend on a particular coding harness. The optional `agents/` files are short role prompts for harnesses that support custom agent definitions; other harnesses can invoke the skills directly. Architecture artifacts belong in the target project's normal source folders, not in the cloned workflow directory.
+The workflow does not depend on a particular coding harness, though harnesses differ in how they install and select agents. Architecture artifacts belong in the target project's normal source folders, not in the cloned workflow directory.
