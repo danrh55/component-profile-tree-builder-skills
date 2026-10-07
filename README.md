@@ -7,7 +7,7 @@ This repository provides an agent for framing an initial architecture in a new p
 From the target project's root, run:
 
 ```sh
-git clone https://github.com/danrh55/project-framing-agent.git .project-framing-agent
+git clone https://github.com/danrh55/component-profile-tree-builder-skills.git .component-profile-tree-builder-skills
 ```
 
 ## Start
