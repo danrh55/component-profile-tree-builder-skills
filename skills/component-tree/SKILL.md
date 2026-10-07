@@ -5,6 +5,8 @@ description: Coordinates a revisable tree of problem and component nodes, mainta
 
 # Component Tree Coordination
 
+This skill is a project-start workflow for a coding agent. Use it when a project is new, its repository has little code or context, or ordinary feature prompts would force the agent to guess the system structure. It creates a predictable starting model before implementation work begins.
+
 This skill owns the system-wide model and its links. It coordinates work across nodes and invokes the focused `component-profile` skill when one component profile needs to be created or updated. It does not absorb the detailed elicitation process for an individual profile.
 
 The model is a working set of abstractions developers can use to reason about the problem and trust the layer beneath. Start at the domain or business problem. Let problem areas, needs, workflows, containers, candidate components, and lower-level implementation emerge as useful. A node is not automatically a component, and the model is not a fixed architecture.
@@ -38,9 +40,17 @@ Use this as a practical starting shape, adapting to project conventions without 
 ```markdown
 # Component Model
 
+## Workflow state
+- Stage: framing | tree | profiles | review | handoff
+- Next action: <one concrete action or "awaiting user input">
+
 ## Root problem
 <a id="problem-root"></a>
-`problem-root`: <User-grounded domain/business problem>
+`problem-root`: <concise, user-accepted, solution-independent problem statement>
+- Context / affected people or processes: <known details>
+- Impact / evidence: <known details>
+- Desired outcome: <solution-independent outcome>
+- Assumptions / open questions: <known unknowns>
 
 ## Tree
 - <a id="problem-area-id"></a> `problem-area-id` [problem area]: <current understanding>
@@ -61,18 +71,23 @@ The tree may contain unresolved or provisional nodes. Mark uncertainty in the no
 
 ## Coordination workflow
 
-1. Read project context, existing model artifacts, relevant decisions, and implementation evidence. Identify the project's persistence convention before proposing paths.
-2. Establish or refine the root problem from user-provided context. If it is unclear, explore the problem with the user rather than inventing a root statement.
-3. Help the user add or revise only the nodes needed for the current understanding. Use hierarchy for decomposition and explicit cross-links for relationships across branches. Keep the model provisional.
-4. When a candidate component needs a detailed profile, invoke `skills/component-profile/SKILL.md` (using `agents/component-profile.md` when the agent framework requires an agent prompt). Give it the node ID, parent/neighbor context, known links, evidence, and agreed artifact path. Let that skill own the profile conversation and file.
-5. Integrate the profile result into the index: add or update the matching component node and relative profile link; update cross-links and affected open questions when relevant. Do not duplicate full profile content in the index.
-6. When evidence changes boundaries, propose the affected node/link/profile changes together, explain why, and get user agreement before updating persisted artifacts.
-7. Work one selected component at a time when moving toward technical work. Carry forward its parent/neighbor context, conceptual data flow, evidence, and open questions; do not treat the tree or profile as an executable contract.
+Run these stages in order. Persist the current stage and one concrete next action in the index so another coding-agent session can resume without reconstructing progress. A stage is complete only when its exit condition is met; if new information invalidates an earlier result, return to that stage and update affected artifacts.
+
+1. **Frame** — Inspect available repository files, instructions, documentation, and code for context. Invoke `skills/problem-framing/SKILL.md` (or `agents/problem-framing.md` when the framework requires an agent prompt) to elicit and validate the user-grounded domain/business problem. Carry its accepted root statement, context, evidence, assumptions, and open questions into the `## Root problem` section of the index. Exit when the user accepts the root statement. Do not infer the product problem from a blank repo.
+2. **Build the tree** — Create the index with the root, useful problem-space nodes, known relationships, and open questions. Nodes may remain provisional and need not be components. Exit when the user accepts this as a useful starting frame; completeness is not required.
+3. **Profile components** — With the user, select one candidate component at a time. Invoke `skills/component-profile/SKILL.md` (or `agents/component-profile.md` when the framework requires an agent prompt), providing its node ID, parent/neighbor context, known links, evidence, and agreed path. Integrate the accepted profile link into the index. Repeat only for components the user wants to clarify now.
+4. **Review the model** — Check that every profiled component has a matching index node and stable ID, profile links resolve in both directions, cross-links are understandable, and open questions are attached to the affected nodes. Surface conflicts and missing context; do not resolve them by guessing. Exit when the user has reviewed the proposed model and remaining gaps are visible.
+5. **Handoff** — Summarize the problem frame, current tree, profiled components, important interactions/data flows, and open questions. Identify a possible next component for technical-contract work, but let the user choose whether and where to proceed. Mark the workflow as handed off; do not start implementation as part of this workflow.
+
+Before persisting a stage's result, show the proposed changes and incorporate the user's corrections. If the user wants to stop early, save the current stage and next action when they authorize persistence. When new evidence changes boundaries, propose affected node/link/profile changes together and update only after agreement.
+
+Do not require source code to begin. Use code as grounding evidence when it exists; when it does not, mark implementation-level details unknown and continue with the problem model.
 
 ## Rules
 
 - Keep problem-space nodes and component nodes distinct where that helps reasoning; do not force early componentization.
 - Keep the index concise enough to reveal the model and navigate it. Put component detail in its profile.
+- Treat the ordered stages and their exit conditions as the predictable workflow; keep the model itself revisable.
 - Track open questions at the nodes they affect and state likely impact. Continue on independent branches where useful.
 - Preserve decisions and evidence from solving the real problem so future changes remain understandable; learning happens through the problem-solving work itself.
 - Before writing or updating artifacts, summarize the proposed changes and resolve conflicts with the user. Report all paths created or updated and the links changed.
