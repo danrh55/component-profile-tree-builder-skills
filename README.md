@@ -7,16 +7,16 @@ Clone this repository into a new project, then ask your coding agent to follow t
 From the target project's root, run:
 
 ```sh
-git clone https://github.com/danrh55/product_development_agent.git .product-development-agent
+git clone https://github.com/danrh55/project-framing-agent.git .project-framing-agent
 ```
 
-This adds the workflow to `.product-development-agent/` in your project. The architecture artifacts it creates belong in your project’s normal source folders, not inside the cloned workflow directory.
+This adds the workflow to `.project-framing-agent/` in your project. The architecture artifacts it creates belong in your project’s normal source folders, not inside the cloned workflow directory.
 
 ## Start
 
 In a session opened at the target project root, ask your coding agent:
 
-> Use the component-tree workflow in `.product-development-agent/skills/component-tree/SKILL.md` to establish an initial architecture frame for this project. Inspect the repository first. Then work with me through the domain, context, containers, and components one layer at a time. Ask focused questions, keep unknowns visible, and explain how each layer connects to the next. Propose folders and `architecture.md` files before writing them. For detailed component specs, use an installed specialist skill if available, then bring its output back and reconcile the architectural implications. Do not start implementation until I choose the next step.
+> Use the component-tree workflow in `.project-framing-agent/skills/component-tree/SKILL.md` to establish an initial architecture frame for this project. Inspect the repository first. Then work with me through the domain, context, containers, and components one layer at a time. Ask focused questions, keep unknowns visible, and explain how each layer connects to the next. Propose folders and `architecture.md` files before writing them. For detailed component specs, use an installed specialist skill if available, then bring its output back and reconcile the architectural implications. Do not start implementation until I choose the next step.
 
 Answer the framing questions and review the proposed folders and documents. You can stop after any layer. To resume later, ask your coding agent to inspect the existing layer folders and continue from there.
 
