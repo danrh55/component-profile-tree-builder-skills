@@ -1,13 +1,13 @@
 ---
 name: problem-framing
-description: Helps the user define and validate the domain or business problem that will serve as the root of a component model.
+description: Helps the user define and validate the domain or business problem that anchors the initial layered architecture.
 ---
 
 # Problem Framing
 
-Define the user-grounded domain or business problem that will act as the root node of a component model. This is especially useful at the start of a project when the repository has too little code or context to guide feature work.
+Define the user-grounded domain or business problem that anchors the initial layered architecture. This is especially useful at the start of a project when the repository has too little code or context to guide feature work.
 
-This skill owns the root problem frame only. It does not decompose the problem into a tree, define component profiles, or choose a solution. The root should describe the problem and intended outcome in terms a developer can use to reason about the work, without prematurely choosing an architecture or implementation.
+This skill owns the domain problem frame only. It does not decompose the architecture into contexts, containers, or components, and it does not choose a solution. The frame should describe the problem and intended outcome in terms a developer can use to reason about the work, without prematurely choosing an architecture or implementation.
 
 ## Procedure
 
@@ -21,19 +21,19 @@ This skill owns the root problem frame only. It does not decompose the problem i
    - what outcome would count as improvement, without prescribing a solution.
 4. Draft a concise problem statement grounded in the user's answers. Keep supporting context, evidence, assumptions, and open questions visible. Do not fill gaps with plausible guesses.
 5. Present the proposed root frame for the user's correction. If it conflicts with an existing frame or evidence, explain the conflict instead of smoothing it over.
-6. Return the user-accepted frame to the caller. Do not create a separate problem brief or edit the component-tree index; the tree coordinator persists the root in the canonical index.
+6. Return the user-accepted frame to the coordinator. Do not create a separate problem brief or edit architecture files; the coordinator places this context in the domain layer's `architecture.md`.
 
 ## Output contract
 
 Return a concise proposal with:
 
-- root node ID: `problem-root`;
 - a short, solution-independent problem statement;
+- a user-approved domain name or folder label, if one is clear;
 - known context, affected people/processes, impact, and evidence (only where established);
 - explicit assumptions and open questions;
 - confirmation that the user accepts the wording, or a note that it remains unresolved.
 
-The canonical persisted location is the `## Root problem` section of the component tree index, normally `spec/components/index.md`. The tree coordinator owns that file and must carry the accepted frame forward without creating a competing source of truth.
+The coordinator persists the accepted frame in `<source-root>/<domain>/architecture.md`, or the equivalent domain-layer document in the project's existing layout. This is contextual documentation for the initial build, not a canonical source of truth. Do not create a competing problem brief.
 
 ## Rules
 

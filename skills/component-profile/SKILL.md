@@ -1,64 +1,51 @@
 ---
 name: component-profile
-description: Helps the user create or update the profile for one named component, capturing its responsibility, boundary, conceptual interactions, evidence, and open questions.
+description: Helps the user create or refine one component's concise architecture context within an initial layered project model.
 ---
 
-# Component Profile
+# Component Architecture Context
 
-A component profile captures the user's current understanding of one component. It is a revisable conceptual description, not an implementation plan or technical contract. This skill owns the content of one profile; it does not own or coordinate the system-wide tree.
+This skill helps document one component's place in the initial architecture frame. Its output is context for the user, coordinator, and later coding/spec agents; it is not the component's detailed technical spec and is not a permanent contract.
 
-## Inputs and context
+## Inputs
 
-Before asking questions, read the target component's existing profile if present, the parent/tree context provided by the caller, and relevant neighboring profiles or evidence. Use that context to ground the conversation. If the component or its location is unclear, resolve that with the user rather than inventing an identifier or path.
+Read the component's parent-layer document, relevant neighboring documents, project conventions, and code/evidence when available. The coordinator should provide the component's folder path and any specialist-spec context. If the component boundary or destination is unclear, surface that rather than inventing it.
 
-The user owns the content. Ask what is known, draft only from information already provided, and mark gaps as unknowns. Keep the user's vocabulary. Work through one section at a time; do not present the full template as a questionnaire.
+The user owns the model. Ask about one area at a time, use their terminology, and keep known facts, assumptions, and open questions distinct. A profile can be useful while details remain unresolved.
 
-## Profile sections
+## Useful prompts
 
-- **Purpose / responsibility** — why it exists, what it owns, and what it leaves to others.
-- **Conceptual model** — how it works in plain language.
-- **Boundary and role** — how it relates to its parent, children, and neighboring components, and why the boundary is useful.
-- **Interactions and data flow** — what information or effects cross the boundary conceptually, and where they come from and go. Do not invent exact interface shapes.
-- **Grounding / evidence** — relevant lower-level behavior, decisions, profiles, or code that supports or challenges the current model.
-- **Invariants** — what must remain true regardless of implementation.
-- **Non-goals** — what the user explicitly wants this component not to do.
-- **Open questions** — known unknowns, affected nodes, and what each question could change or block.
-- **Decisions and rationale** — choices and reasoning/evidence that help explain the current model as it changes.
+Use only the prompts that help explain this component's role and connections:
 
-## Suggested profile template
+- **Responsibility** — what it does and what belongs elsewhere.
+- **Boundary** — why the component is a useful unit and how it relates to its parent container and neighboring components.
+- **Interactions and data flow** — what crosses its boundary conceptually and where that information or effect goes.
+- **Grounding** — relevant parent/neighbor documents, decisions, evidence, code modules, or specialist spec.
+- **Questions and rationale** — what remains unclear and why current boundaries or relationships were chosen.
+
+Do not force a fixed form when a short diagram, bullets, or links explain the component more clearly. When a template helps, use:
 
 ```markdown
----
-id: <stable-component-id>
----
-
 # <Component name>
 
-Tree node: [<stable-component-id>](../index.md#<stable-component-id>)
-
-## Purpose / responsibility
-## Conceptual model
-## Boundary and role
-## Interactions and data flow
-## Grounding / evidence
-## Invariants
-## Non-goals
+## Responsibility and boundary
+## Relationships and data flow
+## Code mapping (when code exists)
+## Grounding / rationale
 ## Open questions
-## Decisions and rationale
 ```
 
 ## Persistence and coordination
 
-When working within the component-tree workflow, persist component profiles at `spec/components/profiles/<component-id>.md`. The corresponding tree node in `spec/components/index.md` is the canonical record of hierarchy and cross-links; the profile links back to that node by its stable ID. Use the project's existing convention instead if the tree coordinator has identified one, and keep the index/profile links explicit.
+Write the component architecture context into the component's `architecture.md` at the path provided by the coordinator. In a greenfield layout this will be under `<source-root>/<domain>/<context>/<container>/<component>/architecture.md`; follow existing repository conventions when present.
 
-This skill writes or updates only the requested component profile. It reports the profile path and a concise summary to the caller, which is responsible for reflecting relevant relationship or status changes in the tree index. Do not create or rewrite the tree index from this skill.
+This skill owns only the component's concise architecture context. It does not maintain a tree, create a second component spec, or require the initial folder organization to remain fixed. If a specialist spec is provided, summarize only the architectural implications and link to the specialist's durable output when available; do not duplicate its contents.
 
-Before updating an existing profile, summarize the proposed changes and incorporate the user's corrections. Do not write until the user accepts the content and a destination path/convention is clear.
+Before changing an existing document, summarize the proposed change and resolve conflicts with the user. Return the file path, a short summary, related components/documents, and any unresolved questions to the coordinator.
 
 ## Rules
 
-- Keep this profile conceptual. Exact schemas, executable interfaces, and implementation details belong in a later technical contract.
-- Do not infer boundaries from code structure alone; use code as evidence and surface conflicts with the user's model.
-- Do not resolve open questions by guessing. State their impact and leave them open.
-- Preserve useful rationale from solving the real problem; do not add a separate training or exercise process.
-```
+- Do not invent exact interface shapes, implementation plans, or test requirements; those belong in a detailed component spec.
+- Use code as evidence when it exists, not as the sole definition of component boundaries.
+- A folder path is an initial navigation cue, not proof of runtime relationships.
+- Keep the document useful for understanding and review. Avoid speculative detail and preserve useful rationale as the real problem is solved.
